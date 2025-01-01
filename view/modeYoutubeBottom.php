@@ -225,7 +225,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                         <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
                         <?php echo (@$video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                             <span class="fa fa-thumbs-down faa-bounce faa-reverse "></span>
-                            <small class="showWhenNotProcessing"><?php echo $video['dislikes']; ?></small>
+                            <small class="showWhenNotProcessing"><?php echo number_format_short($video['dislikes']); ?></small>
                             <div class="showWhenProcessing">
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
@@ -233,7 +233,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                         <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
                         <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                             <span class="fa fa-thumbs-up faa-bounce"></span>
-                            <small class="showWhenNotProcessing"><?php echo $video['likes']; ?></small>
+                            <small class="showWhenNotProcessing"><?php echo number_format_short($video['likes']); ?></small>
                             <div class="showWhenProcessing">
                                 <i class="fas fa-spinner fa-spin"></i>
                             </div>
@@ -262,8 +262,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                                                 } else if (response.myVote == -1) {
                                                     $("#dislikeBtn").addClass("myVote");
                                                 }
-                                                $("#likeBtn small").text(response.likes);
-                                                $("#dislikeBtn small").text(response.dislikes);
+                                                $("#likeBtn small").text(response.formated_likes);
+                                                $("#dislikeBtn small").text(response.formated_dislikes);
                                             }
                                         });
                                         return false;

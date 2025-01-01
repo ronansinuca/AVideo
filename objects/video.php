@@ -1477,6 +1477,8 @@ if (!class_exists('Video')) {
                 if (is_null($video['dislikes'])) {
                     $video['dislikes'] = self::updateLikesDislikes($video['id'], 'dislikes');
                 }
+                $video['formated_likes'] = number_format_short($video['likes']);
+                $video['formated_dislikes'] = number_format_short($video['dislikes']);
             }
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($video) && !empty($_GET['channelName'])) {
@@ -1524,6 +1526,8 @@ if (!class_exists('Video')) {
             $video = Video::getVideoLight($obj->videos_id, $refreshCache);
             $obj->likes = intval($video['likes']);
             $obj->dislikes = intval($video['dislikes']);
+            $obj->formated_likes = number_format_short($obj->likes);
+            $obj->formated_dislikes = number_format_short($obj->dislikes);
             $_getLikes[$videos_id] = $obj;
 
             return $obj;
@@ -2010,6 +2014,9 @@ if (!class_exists('Video')) {
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
+                    $row['formated_likes'] = number_format_short($row['likes']);
+                    $row['formated_dislikes'] = number_format_short($row['dislikes']);
+
                     if (empty($row['duration_in_seconds']) && in_array($row['type'], $allowedDurationTypes)) {
                         _error_log("Video::duration_in_seconds: id={$row['id']} {$row['duration']} {$row['type']}");
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
@@ -2844,6 +2851,10 @@ if (!class_exists('Video')) {
                 $obj->views_count += intval($value['views_count']);
                 $obj->total_minutes += intval(parseDurationToSeconds($value['duration']) / 60);
             }
+            $obj->formated_views_count = number_format_short($obj->views_count);
+            $obj->formated_likes = number_format_short($obj->likes);
+            $obj->formated_disLikes = number_format_short($obj->disLikes);
+
 
             return $obj;
         }

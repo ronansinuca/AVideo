@@ -6425,6 +6425,27 @@ function number_format_short($n, $precision = 1)
     return $n_format . $suffix;
 }
 
+function human_number($number) {
+	$number = preg_replace('/[^\d]+/', '', $number);
+
+	if (!is_numeric($number)) {
+	    return 0;
+	}
+
+	if ($number < 1000) {
+	  return $number;
+	}
+
+	$unit = intval(log($number, 1000));
+	$units = ['', 'K', 'M', 'B', 'T', 'Q'];
+
+	if (array_key_exists($unit, $units)) {
+	    return sprintf('%s%s', rtrim(number_format($number / pow(1000, $unit), 1), '.0'), $units[$unit]);
+	}
+
+	return $number;
+}
+
 /**
  * convert a time in a timezone into my time
  * @param string $time

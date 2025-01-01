@@ -173,6 +173,31 @@ if (!empty($_REQUEST['downloadURL_webpimage'])) {
     }
 }
 
+$obj->spiritsDest = "{$destination_local}_spirits.jpg";
+if (!empty($_REQUEST['downloadURL_spiritsimage'])) {
+    $content = url_get_contents($_REQUEST['downloadURL_spiritsimage']);
+    $obj->spiritsDestSize = file_put_contents($obj->spiritsDest, $content);
+    _error_log("ReceiveImage: download {$_REQUEST['downloadURL_spiritsimage']} {$obj->spiritsDestSize}");
+} elseif (!empty($_FILES['spiritsimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->spiritsDest) || filesize($obj->spiritsDest) === 2095341)) {
+    if (!move_uploaded_file($_FILES['spiritsimage']['tmp_name'], $obj->spiritsDest)) {
+        $obj->msg = print_r(sprintf(__("Could not move image file [%s_spirits.jpg]"), $destination_local), true);
+        _error_log("ReceiveImage: " . $obj->msg);
+        die(json_encode($obj));
+    } else {
+        $obj->spiritsDestSize = humanFileSize(filesize($obj->spiritsDest));
+    }
+} else {
+    if (empty($_FILES['spiritsimage']['tmp_name'])) {
+        _error_log("ReceiveImage: empty \$_FILES['spiritsimage']['tmp_name'] " . json_encode($_FILES));
+    }
+    if (file_exists($obj->spiritsDest)) {
+        _error_log("ReceiveImage: File already exists " . $obj->spiritsDest);
+        if (fileIsAnValidImage($obj->spiritsDest)) {
+            _error_log("ReceiveImage: file is not an error image " . filesize($obj->spiritsDest));
+        }
+    }
+}
+
 if (!empty($obj->jpgDest)) {
     $obj->jpgDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgDest);
 }

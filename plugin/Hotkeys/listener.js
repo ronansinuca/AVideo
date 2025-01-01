@@ -1,7 +1,7 @@
 
 window.addEventListener('message', function(event) {
     var message = event.data;
-    console.log('key received', message.command);
+    //console.log('key received', message.command);
     switch(message.command) {
         case 'playPause':
             if (player.paused()) {
