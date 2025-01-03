@@ -1,5 +1,7 @@
 // Function to add "Skip Intro" button functionality using jQuery
 function setupSkipIntroButton(player) {
+
+    console.log("### SETUP SKIP BUTTON ###");
     // Create the button element using jQuery
     var $skipButton = $('<button>', {
         class: 'vjs-skip-intro-button',
@@ -13,6 +15,7 @@ function setupSkipIntroButton(player) {
     });
 
     function addSkipButton() {
+        console.log("### ADD SKIP BUTTON ###");
         //var $textTrackDisplay = $(player.el()).find('.vjs-text-track-display');
         var $textTrackDisplay = $(player.el());
         if ($textTrackDisplay.length && !$('body').find($skipButton).length) {
@@ -46,3 +49,5 @@ function setupSkipIntroButton(player) {
     });
 }
 setupSkipIntroButton(player);
+
+console.log("### INTRO SKIP BUTTON ###");

@@ -479,6 +479,7 @@ class PlayerSkins extends PluginAbstract
             }
 
             if ($skipTime = self::showSkipIntro()) {
+                _error_log("### SKIP BUTTON ###");
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/skipintro.js"));
                 $js .= "<script>var skipintroTime = {$skipTime};</script>";
             }
