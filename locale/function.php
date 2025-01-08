@@ -24,6 +24,18 @@ function includeLangFile() {
     $_SESSION['language'] = str_replace('../', '', $_SESSION['language']);
     setSiteLang();
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+    
+    // include translations for all enabled plugins
+    $plugins = Plugin::getAllEnabled();
+    foreach ($plugins as $value) {
+        $p = AVideoPlugin::loadPlugin($value['dirName']);
+        if (is_object($p)) {
+            $lang = "{$global['systemRootPath']}plugin/{$value['dirName']}/locale/{$_SESSION['language']}.php";
+            if(file_exists($lang)){
+                @include_once $lang;
+            }
+        }
+    }
 }
 
 function __($str, $allowHTML = false) {
